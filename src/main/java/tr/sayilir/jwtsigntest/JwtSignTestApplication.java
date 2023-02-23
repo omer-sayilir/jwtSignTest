@@ -18,13 +18,14 @@ public class JwtSignTestApplication {
         Integer jwtExpirationInMs=10000;
         String jwtSecret="secret";
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
-
+        SignatureAlgorithm alg = SignatureAlgorithm.forName("HS512");
+        System.out.println("alg.isHmac():"+alg.isHmac());
         String result=Jwts.builder()
                 .setHeaderParam("producer","PEYK")
                 .setSubject("encryptedSubject")
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS256, jwtSecret)
+                .signWith(alg, jwtSecret)
                 .compact();
 
         System.out.println(" result:"+result);
